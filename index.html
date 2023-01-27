@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>112會考倒數</title>
+    </head>
+    <style>
+        .title{
+            display: grid;
+            padding-top:10px;
+            padding-bottom: 10px;
+            font-size: 30px;
+            text-align: center;
+            color:orange;
+            margin:0 auto;
+            font-weight: bold;
+        }
+        .titlebox{
+            border-radius: 10px;
+            border-color: gray;
+            border-width: 5px;
+            border-style: solid;
+        }
+
+        .countdown{
+            display: grid;
+            padding-top:10px;
+            padding-bottom: 10px;
+            font-size: 200px;
+            text-align: center;
+            color:black;
+            margin:0 auto;
+            font-weight: bold;
+            font-family: sans-serif;
+            padding-top: 95px;
+        }
+        .date{
+            display: grid;
+            padding-bottom: 10px;
+            font-size: 20px;
+            text-align: center;
+            color:black;
+            margin:0 auto;
+            font-weight: bold;
+            font-family: monospace;
+        }
+        .timenow{
+            display: grid;
+            font-size: 50px;
+            text-align: center;
+            color:black;
+            margin:0 auto;
+            font-weight: bold;
+            font-family: sans-serif;
+        }
+
+        .links_box{
+            margin-top: 140px;
+            border-radius: 10px;
+            border-color: gray;
+            border-width: 5px;
+            border-style: solid;
+        }
+        .links_title{
+            font-size: 50px;
+            text-align: center;
+            font-weight: bold;
+            display: grid;
+            padding-top: 10px;
+        }
+        .links{
+            font-size: 30px;
+            text-decoration: none;
+            padding: 10px;
+            background-color: rgb(89, 255, 255);
+            border-radius: 10px;
+            margin: 20px;
+            text-align: center;
+            color: black;
+        }
+        .links:hover{
+            text-decoration: none;
+            color: black;
+        }
+        .links:visited{
+            text-decoration: none;
+            color: black;
+        }
+        .linktb{
+            display: flex;
+            justify-content: center;
+        }
+
+        .foot{
+            display: flex;
+            justify-content: center;
+            font-size: 15px;
+            font-family: sans-serif;
+        }
+    </style>
+
+    <script>
+        function cd(){
+            item = document.getElementById("countdown")
+
+            var offsetGMT = new Date().getTimezoneOffset()
+            var nowtime = new Date().getTime()
+            var targetTime = new Date(nowtime + offsetGMT*60*1000 + 8*3600*1000)
+            var timenowStamp = Date.parse(targetTime)
+            //console.log("現在時間(時間戳):"+timenowStamp)
+            
+            var timeexam = Date.parse(new Date(2023, 4, 20))
+            //console.log("會考時間(時間戳):" + timeexam)
+
+            var timeleftstamp = timeexam - timenowStamp
+            //console.log("剩餘時間(時間戳):"+timeleftstamp)
+
+            //console.log(hr+","+min+","+sec)
+            var ttime = timecal(timeleftstamp)
+
+            item.innerText = ttime
+            //console.log('=====')
+            
+            item2 = document.getElementById("timenow")
+            item2.innerText = "現在時間 "+timeformat()
+
+            document.title = timecal(timeleftstamp) + " - 112會考倒數"
+        }
+
+        function timecal(timeleftstamp){
+            var days = Math.floor(timeleftstamp / (24 * 60 * 60 * 1000))
+
+            l1 = timeleftstamp % (24 * 3600 * 1000)
+            var hr = Math.floor(l1 / (60 * 60 * 1000))
+            if (hr.toString().length == 1){
+                var thr = "0" + hr.toString()
+            }
+            else {
+                var thr = hr
+            }
+
+            l2 = l1 % (60*60*1000)
+            var min = Math.floor(l2 / (60 * 1000))
+            if (min.toString().length == 1){
+                var tmin = "0" + min.toString()
+            }
+            else {
+                var tmin = min
+            }
+
+            l3 = l2%(60*1000)
+            var sec = Math.floor(l3 / 1000)
+            if (sec.toString().length == 1){
+                var tsec = "0" + sec.toString()
+            }
+            else {
+                var tsec = sec
+            }
+
+            return days+"天 "+thr+":"+tmin+":"+tsec
+        }
+        function addzero(str){
+            if (str.toString().length == 1){
+                var tstr = "0" + str.toString()
+            }
+            else {
+                var tstr = str
+            }
+            return tstr
+        }
+        //not
+        function timeformat(){
+            var offsetGMT = new Date().getTimezoneOffset()
+            var nowtime = new Date().getTime()
+            var targetTime = new Date(nowtime + offsetGMT*60*1000 + 8*3600*1000)
+
+            var thr = targetTime.getHours()
+            var hr = addzero(thr)
+
+            var tmin = targetTime.getMinutes()
+            var min = addzero(tmin)
+
+            var tsec = targetTime.getSeconds()
+            var sec = addzero(tsec)
+
+            var tday = targetTime.getDate()
+            var day = addzero(tday)
+
+            var tmon = targetTime.getMonth()+1
+            var mon = addzero(tmon)
+
+            var ty = targetTime.getFullYear()
+
+            return ty+"/"+mon+"/"+day+" "+hr+":"+min+":"+sec
+        }
+
+        function ref(url){
+            open(url.toString())
+        }
+
+        setInterval(cd, 1000);
+    </script>
+
+    <body>
+        <div class="titlebox">
+            <a class="title">112年國中教育會考</a>
+            <a class="date"> 2023/05/20、2023/05/21</a>
+        </div>
+        <br>
+        <h1 class="countdown" id="countdown">0天 00:00:00</h1>
+        <h1 class="timenow" id="timenow">0天 00:00:00</h1>
+        
+        <div class="links_box">
+            <a class="links_title">可能有用的連結</a>
+            <br>
+            <div class="linktb">
+                <a class="links" onclick="ref('https://rcpet.edu.tw/');">心測中心</a>
+                <a class="links" onclick="ref('https://cap.rcpet.edu.tw/');">國中教育會考官網</a>
+                <a class="links" onclick ="ref('https://juniorexam.pixnet.net/blog/post/2964828-112%E5%B9%B4%E5%9C%8B%E4%B8%AD%E6%9C%83%E8%80%83%E5%80%92%E6%95%B8%EF%BD%9C%E6%AD%B7%E5%B9%B4%E5%90%84%E5%8D%80%E9%AB%98%E4%B8%AD%E8%90%BD%E9%BB%9E%E9%A0%90%E4%BC%B0%E9%8C%84');">
+                    歷年各區高中落點
+                </a>
+                <a class="links" onclick="ref('https://github.com/pictures2333/countdown-cap-exam')">程式碼</a>
+            </div>
+        </div>
+        <br>
+
+        <a class="foot">Made by pour33142GX | 此專案開源於Github</a>
+    </body>
+</html>
